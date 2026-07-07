@@ -1,0 +1,29 @@
+# Grape Soda — deep grape purples fading to lavender, with a pop of lime green.
+# Custom Ghostty theme. Referenced via `theme = GrapeSoda` in the main config.
+
+background = #181022
+foreground = #e4d9f7
+
+cursor-color = #b8f24d
+cursor-text  = #181022
+
+selection-background = #43335c
+selection-foreground = #e4d9f7
+
+# ANSI 0-7 (normal) / 8-15 (bright)
+palette = 0=#241934
+palette = 1=#f26d9c
+palette = 2=#b8f24d
+palette = 3=#f2d06b
+palette = 4=#9d7ae8
+palette = 5=#b28df0
+palette = 6=#8fe0c0
+palette = 7=#c3b3e6
+palette = 8=#5b5175
+palette = 9=#f487ab
+palette = 10=#c9ff66
+palette = 11=#f5dc85
+palette = 12=#b28df5
+palette = 13=#c4b0f0
+palette = 14=#a3edd0
+palette = 15=#e4d9f7
