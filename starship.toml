@@ -1,402 +1,148 @@
-# Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
-add_newline = false
-palette = "grape_soda"
+# ════════════════════════════════════════════════════════════
+#  Neon Tide · long sweeping arch
+#  Requires a Nerd Font in your terminal (e.g. JetBrainsMono NF)
+#  Place at: ~/.config/starship.toml
+#  Mirrors lua/plugins/colorscheme.lua in ~/.config/nvim and
+#  ~/.config/ghostty/themes/NeonTide — keep the three in sync.
+# ════════════════════════════════════════════════════════════
+
+palette = "neon_tide"
+add_newline = true
 command_timeout = 1000
 
-# left prompt
-format = """$battery$hostname$container$os$directory$character"""
-# move the rest of the prompt to the right
-right_format = """$all${custom.jj_branch}${custom.jj_op}${custom.jj_git_notinsync}"""
+# ── the arch ────────────────────────────────────────────────
+# line 1:  ╭─  info ……… ────(sweep)──── duration  clock
+# line 2:  ╰─❯
+format = """
+[╭─](fg:azure)\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$git_metrics\
+$nodejs$python$rust$golang$package\
+$fill\
+$cmd_duration\
+$time
+[╰─](fg:azure)$character """
 
-[aws]
-disabled = true
-symbol = "  "
+# ── the sweeping thin line ──────────────────────────────────
+[fill]
+symbol = "─"
+style = "fg:line"
 
-[azure]
-disabled = true
-format = "[$symbol($username)]($style) "
-symbol = "󰠅 "
-style = "blue bold"
-
-[battery]
-charging_symbol = "🔌 "
-discharging_symbol = "🔋 "
-unknown_symbol = "⚠️  "
-
-[[battery.display]]
-threshold = 10
-style = "bold red"
-discharging_symbol = "󰁺 "
-charging_symbol = "󰢜 "
-
-[[battery.display]]
-threshold = 20
-style = "bold red"
-discharging_symbol = "󰁻 "
-charging_symbol = "󰂆 "
-
-[[battery.display]]
-threshold = 30
-style = "bold maroon"
-discharging_symbol = "󰁼 "
-charging_symbol = "󰂇 "
-
-[[battery.display]]
-threshold = 40
-style = "bold peach"
-discharging_symbol = "󰁽 "
-charging_symbol = "󰂈 "
-
-[[battery.display]]
-threshold = 50
-style = "bold yellow"
-discharging_symbol = "󰁾 "
-charging_symbol = "󰢝 "
-
-[buf]
-symbol = " "
-
-[c]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[cmake]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[cmd_duration]
-min_time = 1000
-format = "took [$duration]($style) "
-
-[conda]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[container]
-symbol = ""
-format = "[$symbol]($style) "
-
-[crystal]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[dart]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[directory]
-truncate_to_repo = true
-truncation_symbol = '…/'
-style = "bold lavender"
-read_only = " 󰌾"
-
-[directory.substitutions]
-"/Code" = "/"
-"/Developer" = "/"
-"/workspaces" = "/"
-
-# Current line indicator — exaggerated curved hooked arrow (no background block).
-# ↪ is a rightwards arrow with a looped hook tail; colored from the rose_pine palette.
+# ── pointer (recolours on exit status / vim mode) ───────────
 [character]
-success_symbol = "[↪](bold iris)"
-error_symbol   = "[↪](bold love)"
-vimcmd_symbol  = "[❮](bold foam)"
+success_symbol = "[❯](bold fg:teal)"
+error_symbol   = "[❯](bold fg:coral)"
+vimcmd_symbol  = "[❯](bold fg:gold)"
+vimcmd_replace_one_symbol = "[❯](bold fg:violet)"
+vimcmd_replace_symbol     = "[❯](bold fg:violet)"
+vimcmd_visual_symbol      = "[❯](bold fg:pink)"
 
-[docker_context]
-symbol = " "
+# ── location ────────────────────────────────────────────────
+[directory]
+style = "bold fg:teal"
+format = "[  $path ]($style)[$read_only]($read_only_style)"
+truncation_length = 3
+truncation_symbol = "…/"
+read_only = "  "
+read_only_style = "fg:coral"
+home_symbol = " ~"
 
-[elixir]
-symbol = " "
-format = "[$symbol($version)]($style) "
+[username]
+show_always = false
+style_user = "fg:violet"
+style_root = "fg:coral"
+format = "[$user ]($style)"
 
-[elm]
-symbol = " "
-format = "[$symbol($version)]($style) "
+[hostname]
+ssh_only = true
+style = "fg:azure"
+format = "[@$hostname ]($style)"
 
-[fennel]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[fossil_branch]
-symbol = " "
-
+# ── git ─────────────────────────────────────────────────────
 [git_branch]
-style = "bold mauve"
-symbol = " "
-format = "[$symbol$branch(:$remote_branch)]($style) "
+symbol = " "
+style = "fg:violet"
+format = "[on ](fg:subtle)[$symbol$branch ]($style)"
 
-[git_commit]
-tag_symbol = '  '
+[git_status]
+style = "fg:coral"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "⚔ "
+ahead      = "⇡${count} "
+behind     = "⇣${count} "
+diverged   = "⇕ ⇡${ahead_count} ⇣${behind_count} "
+untracked  = "? "
+stashed    = " "
+modified   = "! "
+staged     = "+ "
+renamed    = "» "
+deleted    = "✘ "
 
 [git_metrics]
 disabled = false
+added_style   = "fg:green"
+deleted_style = "fg:coral"
+format = '([+$added ]($added_style))([-$deleted ]($deleted_style))'
 
-[git_status]
-format = '([$all_status$ahead_behind]($style) )'
-
-# Custom Nerd Font / glyph mappings
-ahead = "⇡${count} "          # commits ahead
-behind = "⇣${count} "         # commits behind
-diverged = "⇕ "              # diverged
-conflicted = "⚔ ${count}"            # merge conflicts
-stashed = " "               # stashed changes
-staged = "✔ "                # staged changes
-modified = " "             # modified files
-deleted = " "              # deleted files
-renamed = " "              # renamed files
-untracked = " "            # untracked files
-
-[golang]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[guix_shell]
-symbol = " "
-
-[haskell]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[haxe]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-
-[hg_branch]
-symbol = " "
-
-[hostname]
-ssh_symbol = " "
-format = "[$ssh_symbol](status)"
-
-[java]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[julia]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[kotlin]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[lua]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[memory_usage]
-symbol = "󰍛 "
-
-[meson]
-symbol = "󰔷 "
-format = "[$symbol($version)]($style) "
-
-[nim]
-symbol = "󰆥 "
-format = "[$symbol($version)]($style) "
-
-[nix_shell]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
+# ── languages (subtle, only when relevant) ──────────────────
 [nodejs]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[ocaml]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[os]
-format = "$symbol($style) "
-style = "bold blue"
-disabled = false
-
-[package]
-symbol = "󰏗 "
-
-[perl]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[php]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[pijul_channel]
-symbol = " "
+symbol = " "
+style = "fg:green"
+format = "[$symbol($version) ]($style)"
 
 [python]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[rlang]
-symbol = "󰟔 "
-format = "[$symbol($version)]($style) "
-
-[ruby]
-symbol = " "
-format = "[$symbol($version)]($style) "
+symbol = " "
+style = "fg:gold"
+format = "[$symbol($version) ]($style)"
 
 [rust]
-symbol = "󱘗 "
-format = "[$symbol($version)]($style) "
+symbol = " "
+style = "fg:coral"
+format = "[$symbol($version) ]($style)"
 
-[scala]
-symbol = " "
-format = "[$symbol($version)]($style) "
+[golang]
+symbol = " "
+style = "fg:azure"
+format = "[$symbol($version) ]($style)"
 
-[swift]
-symbol = " "
-format = "[$symbol($version)]($style) "
+[package]
+symbol = " "
+style = "fg:muted"
+format = "[$symbol$version ]($style)"
 
-[username]
-disabled = true
+# ── right side: duration + clock ────────────────────────────
+[cmd_duration]
+min_time = 500
+style = "fg:gold"
+format = "[  $duration ]($style)"
 
-[zig]
-symbol = " "
-format = "[$symbol($version)]($style) "
+[time]
+disabled = false
+time_format = "%R"
+style = "fg:muted"
+format = "[  $time ]($style)"
 
-[gradle]
-symbol = " "
-format = "[$symbol($version)]($style) "
-
-[palettes.grape_soda]
-# Grape Soda — deep grape purples fading to lavender, with a pop of lime green.
-base          = "#181022"
-surface       = "#1f1830"
-overlay       = "#241934"
-muted         = "#5b5175"
-subtle        = "#9585b8"
-love          = "#f26d9c"  # warm pink-magenta against purple
-gold          = "#f2d06b"
-rose          = "#e0a3d0"
-pine          = "#93c9f0"  # cool periwinkle
-foam          = "#8fe0c0"  # soft mint (secondary to the lime pop)
-iris          = "#b28df0"  # grape
-highlight_low  = "#1f1830"
-highlight_med  = "#332548"
-highlight_high = "#43335c"
-
-# Catppuccin-style aliases mapped to Grape Soda, so existing styles keep working
-rosewater = "#e0c8f0"
-flamingo  = "#e0a3d0"
-pink      = "#e8a0e0"
-mauve     = "#b28df0"  # grape
-red       = "#f26d9c"
-maroon    = "#f487ab"
-peach     = "#f0a95e"
-yellow    = "#f2d06b"
-green     = "#b8f24d"  # the lime green pop
-teal      = "#8fe0c0"
-sky       = "#a3edd0"
-sapphire  = "#93c9f0"
-blue      = "#9d7ae8"  # grape-blue
-lavender  = "#c4b0f0"
-text      = "#e4d9f7"
-subtext1  = "#c3b3e6"
-subtext0  = "#a99cd0"
-overlay2  = "#8b7db0"
-overlay1  = "#726690"
-overlay0  = "#5b5175"
-surface2  = "#43335c"
-surface1  = "#332548"
-surface0  = "#241934"
-mantle    = "#130d1c"
-crust     = "#0e0a15"
-
-[os.symbols]
-Alpaquita = " "
-Alpine = " "
-AlmaLinux = " "
-Amazon = " "
-Android = " "
-Arch = " "
-Artix = " "
-CachyOS = " "
-CentOS = " "
-Debian = " "
-DragonFly = " "
-Emscripten = " "
-EndeavourOS = " "
-Fedora = " "
-FreeBSD = " "
-Garuda = "󰛓 "
-Gentoo = " "
-HardenedBSD = "󰞌 "
-Illumos = "󰈸 "
-Kali = " "
-Linux = " "
-Mabox = " "
-Macos = " "
-Manjaro = " "
-Mariner = " "
-MidnightBSD = " "
-Mint = " "
-NetBSD = " "
-NixOS = " "
-Nobara = " "
-OpenBSD = "󰈺 "
-openSUSE = " "
-OracleLinux = "󰌷 "
-Pop = " "
-Raspbian = " "
-Redhat = " "
-RedHatEnterprise = " "
-RockyLinux = " "
-Redox = "󰀘 "
-Solus = "󰠳 "
-SUSE = " "
-Ubuntu = " "
-Unknown = " "
-Void = " "
-Windows = "󰍲 "
-
-[custom.jj_branch]
-shell = "sh"
-when = '''
-dir="$PWD"
-while [ "$dir" != "/" ]; do
-  [ -d "$dir/.jj" ] && exit 0
-  dir="$(dirname "$dir")"
-done
-exit 1
-'''
-command = '''
-jj log -r "(immutable_heads()..@):: & branches()" -T 'local_branches.join(\"\n\") ++ \"\n\"' --no-graph --ignore-working-copy | head -n 1
-'''
-style = 'yellow'
-
-[custom.jj_op]
-shell = "sh"
-when = '''
-dir="$PWD"
-while [ "$dir" != "/" ]; do
-  [ -d "$dir/.jj" ] && exit 0
-  dir="$(dirname "$dir")"
-done
-exit 1
-'''
-command = 'jj op log -n 1 -T "id.short()" --no-graph --ignore-working-copy'
-symbol = 'op:'
-style = "bright-yellow"
-
-[custom.jj_git_notinsync]
-shell = "sh"
-when = '''
-dir="$PWD"
-while [ "$dir" != "/" ]; do
-  [ -d "$dir/.jj" ] && break
-  dir="$(dirname "$dir")"
-done
-[ "$dir" = "/" ] && exit 1
-[ -n "${jj_git_head:=$(jj log -T commit_id --no-graph --ignore-working-copy -r HEAD@git)}" ] \
-&& [ -n "${git_head:=$(git rev-parse HEAD)}" ] \
-&& [ "$git_head" != "$jj_git_head" ]
-'''
-command = 'jj log -T "commit_id.short()" --no-graph --ignore-working-copy -r HEAD@git'
-symbol = 'jj:git≠'
-style = 'bold red'
+# ════════════════════════════════════════════════════════════
+#  Neon Tide — matches nvim colorscheme + Ghostty theme
+# ════════════════════════════════════════════════════════════
+[palettes.neon_tide]
+base    = "#0c151d"
+surface = "#19232d"
+overlay = "#242f3b"
+muted   = "#677583"
+subtle  = "#95a1af"
+text    = "#d5dde7"
+coral   = "#f9667a"
+gold    = "#f2ce59"
+green   = "#7cd06a"
+teal    = "#11d6a4"
+azure   = "#6aaafe"
+violet  = "#b888fa"
+pink    = "#fa8cd7"
+line    = "#323e4c"

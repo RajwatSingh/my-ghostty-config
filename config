@@ -1,98 +1,73 @@
-# =====================================================================
-# THEME & COLOR
-# =====================================================================
+# ════════════════════════════════════════════════════════════
+#  Ghostty · Neon Tide (custom theme in ~/.config/ghostty/themes)
+#  Place at: ~/.config/ghostty/config   (the file is literally
+#  named "config", no extension)
+# ════════════════════════════════════════════════════════════
 
-# Unified on "Grape Soda" across Ghostty, Neovim and Starship — deep grape
-# purples fading to lavender, with a pop of lime green. This is a custom theme
-# living in ~/.config/ghostty/themes/GrapeSoda (edit that file to tweak colors).
-theme = GrapeSoda
-
-# Make bold text use bright colors — adds depth without a second font.
-bold-is-bright = true
-
-# Keep text legible over any background, even with low-contrast themes.
-minimum-contrast = 1.05
-
-# Subtle frosted-glass effect. Neovim runs transparent, so this softly
-# blends the desktop behind your code for a modern, layered look.
-# Set background-opacity = 1 to go fully solid if you prefer.
-background-opacity = 0.95
-background-blur = true
-
-# Tint the window padding with the background so there are no black bars
-# where the opacity/blur doesn't reach.
-window-padding-color = background
-
-# Dim inactive splits so the focused pane stands out.
-unfocused-split-opacity = 0.85
-
-# Blinking bar cursor reads more "modern editor" than a static underline.
-cursor-style = bar
-cursor-style-blink = true
-
-# =====================================================================
-# FONT
-# =====================================================================
-
-font-family = FiraCode Nerd Font
-font-size = 14
-
-# Ligatures off (your preference). Delete this line to enable FiraCode's
-# programming ligatures (==>, !=, =>, etc.).
-font-feature = -calt
-
-# Roomier lines — easier on the eyes and less cramped.
-adjust-cell-height = 14%
-
-# Crisper glyphs with the Nerd Font on HiDPI.
+# ── Font ── Nerd Font is REQUIRED or the arch/glyphs show as boxes
+font-family = "JetBrainsMono Nerd Font"
+font-size = 13
 font-thicken = true
 
-# =====================================================================
-# WINDOW & UI
-# =====================================================================
+# ── Theme ── custom Neon Tide, matches nvim's colorscheme
+theme = NeonTide
 
-window-padding-x = 16
-window-padding-y = 16
+# Slight translucency + blur so nvim's transparent background has
+# something soft behind it instead of raw desktop pixels.
+background-opacity = 0.94
+background-blur-radius = 24
+
+# ── Cursor ──
+cursor-style = block
+cursor-style-blink = true
+
+# ── Window chrome ──
+macos-titlebar-style = tabs
+window-padding-x = 14
+window-padding-y = 10
 window-padding-balance = true
-window-decoration = true
-window-theme = ghostty
-
-# Hide the mouse cursor while typing; show clickable links on hover.
 mouse-hide-while-typing = true
-link-url = true
-
-# Selecting text copies it straight to the clipboard.
-copy-on-select = clipboard
-
-# Splits/tabs are cheap to reopen — skip the close confirmation prompt.
-confirm-close-surface = false
 
 # =====================================================================
 # KEYBINDINGS
+#
+# Two sets live below: macOS and Linux. Exactly ONE may be active at a
+# time. To switch platforms, comment out the active block and uncomment
+# the other. Nothing else in this file needs to change.
+#
+# Currently active: macOS
 # =====================================================================
 
-# Quick Configuration Reload
-keybind = ctrl+shift+r=reload_config
-
-# Better Split Management
-keybind = ctrl+shift+d=new_split:right
-keybind = ctrl+shift+e=new_split:down
-
-# Effortless Navigation Between Splits (Alt + Arrow Keys)
+# ── Shared (identical on both platforms) ────────────────────────────
+# Alt+Arrow to move between splits.
 keybind = alt+left=goto_split:left
 keybind = alt+right=goto_split:right
 keybind = alt+up=goto_split:top
 keybind = alt+down=goto_split:bottom
 
-# Tab Controls
-keybind = ctrl+tab=next_tab
-keybind = ctrl+shift+tab=previous_tab
-keybind = ctrl+shift+t=new_tab
-keybind = ctrl+shift+w=close_surface
+# ── macOS ── ACTIVE ─────────────────────────────────────────────────
+# macOS defaults already cover new tab (cmd+t), close (cmd+w),
+# copy/paste (cmd+c / cmd+v) and tab cycling (ctrl+tab), so only the
+# bindings Ghostty does not give us for free are listed here.
+keybind = cmd+shift+r=reload_config
+keybind = cmd+shift+d=new_split:right
+keybind = cmd+shift+e=new_split:down
+keybind = cmd+shift+zero=reset_font_size
 
-# Clean Clipboard Binds
-keybind = ctrl+shift+c=copy_to_clipboard
-keybind = ctrl+shift+v=paste_from_clipboard
-
-# Quick font-size reset
-keybind = ctrl+shift+zero=reset_font_size
+# ── Linux ── INACTIVE (uncomment this block, comment the one above) ──
+# Linux has no cmd key and gives us fewer defaults, so tabs and
+# clipboard have to be bound explicitly.
+# keybind = ctrl+shift+r=reload_config
+# keybind = ctrl+shift+d=new_split:right
+# keybind = ctrl+shift+e=new_split:down
+# keybind = ctrl+shift+zero=reset_font_size
+#
+# Tab controls
+# keybind = ctrl+tab=next_tab
+# keybind = ctrl+shift+tab=previous_tab
+# keybind = ctrl+shift+t=new_tab
+# keybind = ctrl+shift+w=close_surface
+#
+# Clipboard
+# keybind = ctrl+shift+c=copy_to_clipboard
+# keybind = ctrl+shift+v=paste_from_clipboard

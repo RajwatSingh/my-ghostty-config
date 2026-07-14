@@ -1,0 +1,34 @@
+# Neon Tide v2 — deep midnight-navy base, vibrant azure/teal/coral/gold accents.
+# Engineered in OKLCH: uniform accent lightness, max in-gamut chroma; bright
+# variants are the same hue/chroma lifted +0.05 L.
+# Mirrors lua/plugins/colorscheme.lua in ~/.config/nvim and the
+# [palettes.neon_tide] block of ~/.config/starship.toml — keep the three in sync.
+
+background = #0c151d
+foreground = #d5dde7
+
+cursor-color = #3bfee7
+cursor-text = #0c151d
+
+selection-background = #323e4c
+selection-foreground = #d5dde7
+
+# normal
+palette = 0=#19232d
+palette = 1=#f9667a
+palette = 2=#7cd06a
+palette = 3=#f2ce59
+palette = 4=#6aaafe
+palette = 5=#b888fa
+palette = 6=#11d6a4
+palette = 7=#adb7c2
+
+# bright
+palette = 8=#4f5c6a
+palette = 9=#ff828f
+palette = 10=#8ce17a
+palette = 11=#ffdf7c
+palette = 12=#87bafe
+palette = 13=#c49dfe
+palette = 14=#38e7b4
+palette = 15=#d5dde7
